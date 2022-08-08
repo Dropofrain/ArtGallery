@@ -10,15 +10,15 @@ export const viewCategories = () => {
 }
 
 // to add category
-export const addCategory = ({ category_name }, token) => {
+export const addCategory = (category_name, token) => {
   return fetch(`${API}/addcategory`, {
     method: "POST",
     headers: {
       Accept: "application/json",
-      "cpntent-Type": "application/json",
-      Authorization: `Beater ${token}`
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`
     },
-    body: JSON.stringify(category_name)
+    body: JSON.stringify({category_name})
   })
     .then(res => res.json())
     .catch(err => console.log(err))
@@ -30,10 +30,10 @@ export const updateCategory = (category_name, category_id, token) => {
     method: "PUT",
     headers: {
       Accept: "application/json",
-      "cpntent-Type": "application/json",
-      Authorization: `Beater ${token}`
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`
     },
-    body: JSON.stringify(category_name)
+    body: JSON.stringify({category_name})
   })
     .then(res => res.json())
     .catch(err => console.log(err))

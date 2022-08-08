@@ -14,7 +14,7 @@ const AdminDashboard = () => {
             <Adminsidebar/>
           </div>
           <div className='col-md-9'>
-            <h1>hell welcome to dasnboard</h1>
+            <h1>hello welcome to dashboard</h1>
           </div>
         </div>
       </div>

@@ -1,6 +1,7 @@
 import { ConfirmationNumber, FormatQuoteRounded } from '@mui/icons-material'
 import React, { useState, Confirmation, params, success, useEffect } from 'react'
 import { useParams} from 'react-router-dom'
+import { confirmation } from '../../API/userAPI'
 import Footer from '../layout/Footer'
 import Navbar from '../layout/Navbar'
 
@@ -16,7 +17,7 @@ const ConfirmUser = () => {
 
     //call api function
     useEffect(()=>{
-        Confirmation(token)
+        confirmation(token)
         .then(data=>{
             if(data.error){
                 setError(data.error)
@@ -37,7 +38,7 @@ const ConfirmUser = () => {
         }
     const showSuccess = () =>{
         if(success){
-                return<div className='alert alert-sucess'>{success}</div>
+                return<div className='alert alert-success'>{success}</div>
         }
     }
   return (

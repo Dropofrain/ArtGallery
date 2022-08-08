@@ -11,7 +11,7 @@ import { isAuthenticated } from '../../API/userAPI'
 const ViewCategories = () => {
   const [categories, setCategories] = useState([])
   const [error, setError] = useState('')
-  const [success, setSuccess] = useState('')
+  let [success, setSuccess] = useState('')
 const{token}=isAuthenticated()
 
   const params = useParams()
@@ -27,7 +27,7 @@ const{token}=isAuthenticated()
         }
       })
       .catch(err => console.log(err))
-  }, [])
+  }, [success])
 
 
   const deletecategory = (e,category_id) => {
@@ -39,7 +39,7 @@ const{token}=isAuthenticated()
           setSuccess('')
         }
         else {
-          setSuccess(data.success)
+          setSuccess(data.message)
           setError('')
         }
       })
@@ -54,7 +54,7 @@ const{token}=isAuthenticated()
 
   const showSuccess = () => {
     if (success) {
-      return <div className='alert alert-success'>Category added successfully</div>
+      return <div className='alert alert-success'>{success}</div>
     }
   }
 
@@ -85,7 +85,7 @@ const{token}=isAuthenticated()
                     <td>{i + 1}</td>
                     <td>{category.category_name}</td>
                     <td>
-                      <Link to={`/category/update/${category_id}`}><button className='btn btn-warning'>UPDATE</button></Link>
+                      <Link to={`/category/update/${category._id}`}><button className='btn btn-warning'>UPDATE</button></Link>
                       <button className='btn btn-danger'
                         onClick={e=>deletecategory(e,category._id)}>DELETE</button>
                     </td>

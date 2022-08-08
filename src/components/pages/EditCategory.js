@@ -34,7 +34,7 @@ const EditCategory = () => {
 
     const clickSubmit = (e) => {
         e.preventDefault()
-        updateCategory(category, category_id)
+        updateCategory(category, category_id, token)
             .then(data => {
                 if (data.error) {
                     setError(data.error)
@@ -85,7 +85,7 @@ const EditCategory = () => {
                                         <>
                                             <label htmlFor='new_cat' >New Category Name:</label>
                                             <input type={'text'} className='form-control' onChange={e => setCategory(e.target.value)} />
-                                            <button className='btn btn-warnning mt-2' onClick={clickSubmit}> Update Button</button>
+                                            <button className='btn btn-warning mt-2' onClick={clickSubmit}> Update Button</button>
                                         </>
                                     }
 

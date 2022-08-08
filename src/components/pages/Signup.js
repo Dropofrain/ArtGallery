@@ -9,6 +9,8 @@ const Signup = () => {
 const [name, setName] = useState('')
 const [email, setEmail] = useState('')
 const [password, setPassword] = useState('')
+const [address, setAddress] = useState('')
+const [phone, setPhone] = useState('')
 
 // to display error or sucess
 const [error, setError] = useState('')
@@ -17,7 +19,7 @@ const [success, setSuccess] = useState('')
 //
 const clickSubmit = (event) => {
 event.preventDefault()
-userRegister(name,email,password)
+userRegister(name,email,password,address,phone)
 .then(data =>{
   if(data.error){
     setError(data.error)
@@ -29,6 +31,8 @@ userRegister(name,email,password)
     setName('')
     setEmail('')
     setPassword('')
+    setAddress('')
+    setPhone('')
 
   }
 })
@@ -110,6 +114,14 @@ const showSuccess =() =>{
             <input type="password" className="form-control" id="floatingPassword" placeholder="Password" onChange={e=>setPassword(e.target.value)}/>
             <label for="floatingPassword">Password</label>
           </div>
+          <div className="form-floating mb-2">
+            <input type="text" className="form-control" id="floatingaddress" placeholder="address" onChange={e=>setAddress(e.target.value)} />
+            <label for="floatingaddress">Address</label>
+          </div>
+          <div className="form-floating mb-2">
+            <input type="integer" className="form-control" id="floatingphone" placeholder="phone" onChange={e=>setPhone(e.target.value)} />
+            <label for="floatingphone">Phone</label>
+          </div>
 
           {/* <div className="form-floating mb-2">
             <input type="password" className="form-control" id="floatingCPassword" placeholder="Confirm Password" />
@@ -123,8 +135,6 @@ const showSuccess =() =>{
           </div>
           <button className="w-100 btn btn-lg btn-primary" type="submit" onClick={clickSubmit}>Register</button>
           Already have an account.<Link to='/signin'>Sign in</Link> 
-
-          {/* <p className="mt-5 mb-3 text-muted">&copy; 2017–2021</p> */}
         </form>
       </main>
 

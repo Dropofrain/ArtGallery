@@ -1,77 +1,86 @@
 import { Checkbox, FormControl, RadioGroup, Typography } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Footer from '../layout/Footer'
 import Navbar from '../layout/Navbar'
 import Products from '../Products'
-import {Container, FormControlLabel, Box, Radio, Link } from '@mui/material'
+import { Container, FormControlLabel, Box, Radio, Link } from '@mui/material'
 //import { Box } from '@mui/system'
-import StarIcon from '@mui/icons-material/Star';
-import StarBorderIcon from '@mui/icons-material/Star';
+//import StarIcon from '@mui/icons-material/Star';
+//import StarBorderIcon from '@mui/icons-material/Star';
+import { filterProduct } from '../../API/productsAPI'
+//import { convertLength } from '@mui/material/styles/cssUtils'
+import Checkbox_category from '../Checkbox_category'
+import RadioButton from '../RadioButton'
+import { Prices } from '../prices'
 
 const Productspage = () => {
+  const [sortBy, setSortBy] = useState('CreatedAt')
+  const [order, setOrder] = useState('1')
+  const [limit, setLimit] = useState(8)
+  const [skip, setskip] = useState(0)
+
+  const [filteredProduct, setFilteredProduct] = useState([])
+  const [size, setSize] = useState(0)
+
+  const [myfilters, setMyFilters] = useState({
+    filters: { category: [], product_price: [] }
+  })
+
+  useEffect(() => {
+    filterProduct(sortBy, order, limit, skip, myfilters)
+      .then(data => {
+        if (data.error) {
+          console.log(data.error)
+        }
+        else {
+          setFilteredProduct(data.product)
+          setSize(data.size)
+        }
+      })
+      .catch(err => console.log(err))
+  }, [myfilters])
+
+  const handleFilters = (filters, filterBy) => {
+    const newfilter = { ...myfilters }
+    newfilter.filters[filterBy] = filters
+    // category: mobile_id -> filters: mobile_id, filterBy: category
+    //price: price_id -> filters: price_id, filterBy: price
+    if (filterBy === 'product_price') {
+      newfilter.filters[filterBy] = handlePrice(filters)
+    }
+    setMyFilters(newfilter)
+    console.log(newfilter)
+
+  }
+
+  const handlePrice = (index) => {
+    const data = Prices
+    const price = data.find(price => price.id === index)
+    return price.value
+  }
+
   return (
     <>
       <Navbar />
       <Container maxWidth='xl'>
         <div className='row'>
           <div className='col-md-3'>
-            <Typography variant='h4' color='secondary' pl={5} pt={5} >Department</Typography>
-            <Box pl={5} mt={3}>
-              <FormControlLabel control={<Checkbox defaultChecked />} label="All" />
-              <br />
-              <FormControlLabel control={<Checkbox defaultChecked />} label="Computer" />
-              <br />
-              <Checkbox id="checkbox2" />
-              <label htmlFor='checkbox2'>Mobiles</label>
-              <br />
-              <FormControlLabel control={<Checkbox />} label="Camers" />
-              <br />
-              <FormControlLabel control={<Checkbox />} label="Beauty" />
-              <br />
+            <Checkbox_category handleFilters={handleFilters} />
+            <RadioButton handleFilters={handleFilters} />
 
-              <FormControlLabel control={<Checkbox />} label="Fitness" />
-              <br />
-            </Box>
-
-            <Typography variant='h4' color='secondary' mt={5} pt={5} >Prices</Typography>
-
-            <RadioGroup
-              aria-describedby="demo-radio-buttons-group-label" defaultValue="female"
-              name="radio-button-group"  >
-              <FormControlLabel value="other1" control={<Radio />} label="Below $25" /><br />
-              <FormControlLabel value="other2" control={<Radio />} label="$25 - $105" /><br />
-              <FormControlLabel value="other3" control={<Radio />} label="$105 - $205" /><br />
-              <FormControlLabel value="other4" control={<Radio />} label="$205 -$350" /><br />
-              <FormControlLabel value="other5" control={<Radio />} label="$350 -$1000" /><br />
-            </RadioGroup>
-
-            <Typography variant='h4' color='secondary' mt={5} pt={5} >Discount</Typography>
-
-            <RadioGroup
-              aria-describedby="demo-radio-buttons-group-label" defaultValue="female"
-              name="radio-button-group2"  >
-              <FormControlLabel value="discount1" control={<Radio />} label="upto 5%" /><br />
-              <FormControlLabel value="discount2" control={<Radio />} label="Upto 10%" /><br />
-              <FormControlLabel value="discount3" control={<Radio />} label="Upto 25%" /><br />
-              <FormControlLabel value="discount4" control={<Radio />} label="Upto 50%" /><br />
-              <FormControlLabel value="discount5" control={<Radio />} label="Upto 60%" /><br />
-            </RadioGroup>
-
-            <Typography variant='h4' color='secondary' mt={5} pt={5} >Deals</Typography>
-            <Link href="" component="button" variant="h5" color={'success.main'}>Deals of the day</Link> <br />
-            <Link href="" component="button" variant="h5" color={'success.dark'}>Flash deals</Link> <br />
-
-            <Link href="" component="button" variant="h5" color={'success.light'}>Most Popular</Link> <br />
-
-            <Typography variant='h4' color='secondary' mt={5} pt={5} >Avg.customer review</Typography>
-            <StarIcon /><StarIcon /><StarIcon /><StarIcon /><StarIcon /><br />
-            <StarIcon /><StarIcon /><StarIcon /><StarIcon /><StarBorderIcon /><br />
-            <StarIcon /><StarIcon /><StarIcon /><StarBorderIcon /><StarBorderIcon /><br />
-            <StarIcon /><StarIcon /><StarBorderIcon /><StarBorderIcon /><StarBorderIcon /><br />
-            <StarIcon /><StarBorderIcon /><StarBorderIcon /><StarBorderIcon /><StarBorderIcon /><br />
           </div>
           <div className='col-md-9'>
-            <Products />
+
+            <div className='container mx-auto mt-5'>
+              <div className="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4">
+                {
+                 filteredProduct.map(product => {
+                    return <Products product={product} key={product._id} />
+                  })
+                }
+                {/* <Products /> */}
+              </div>
+            </div>
           </div>
 
         </div>
@@ -81,6 +90,7 @@ const Productspage = () => {
       <Footer />
     </>
   )
+
 }
 
 export default Productspage

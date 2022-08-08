@@ -66,7 +66,7 @@ const Signin = () => {
                             <label for="floatingInput">Email address</label>
                         </div>
                         <div className="form-floating mb-3">
-                            <input type="password" className="form-control" id="floatingPassword" placeholder="Password" onChange={e => setPassword} />
+                            <input type="password" className="form-control" id="floatingPassword" placeholder="Password" onChange={e => setPassword(e.target.value)} />
                             <label for="floatingPassword">Password</label>
                         </div>
 
@@ -76,8 +76,10 @@ const Signin = () => {
                             </label>
                         </div>
                         <button className="w-100 btn btn-lg btn-primary" type="submit" onClick={clickSubmit}>Sign in</button><br />
-                        Do not have an account. If you forget the password plz register new account <Link to='/signup'>Register</Link>
-                        {/* <p classNameName="mt-5 mb-3 text-muted">&copy; 2017–2021</p> */}
+                        If you forget the password<Link to='/forgetpassword'>Forget Password</Link><br/>
+
+                        Do not have an account. Plz register new account <Link to='/signup'>Register</Link>
+                       
                     </div>
                 </form>
             </main>

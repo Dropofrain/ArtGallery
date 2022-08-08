@@ -4,7 +4,7 @@ import { isAuthenticated, signOut } from '../../API/userAPI';
 import './navbar.css';
 
 const Navbar = () => {
-    const user = isAuthenticated()
+    const {user} = isAuthenticated()
     const navigate = useNavigate()
     const signout = () => {
         signOut()
@@ -18,7 +18,7 @@ return (
     <>
         <div className='row pt-1 bg-dark'>
             <div className='col-md-3 text-center'>
-                <Link className="navbar-brand fs-3 fw-bold text-white" to="/">Navbar</Link>
+                <Link className="navbar-brand fs-3 fw-bold text-white" to="/">Art Gallery</Link>
             </div>
             <div className='col-md-6'>
 
@@ -37,13 +37,13 @@ return (
 
                 {
                     (!user || (user && user.role === 0)) &&
-                    <Link to='/cart'><i class="bi bi-cart-plus fs-3 fw-bold text-white"></i></Link>
+                    <Link to='/cart'><i class="bi bi-cart fs-3 fw-bold text-white"></i></Link>
                 }
 
                 {
                     user && user.role === 0 &&
                     <>
-                        <Link to=''><i class="bi bi-person.circle fs-3 fw-bold text-white "></i>
+                        <Link to='/user/profile'><i class="bi bi-person-circle fs-3 fw-bold text-white "></i>
                         </Link>
                     </>
                 }
@@ -51,14 +51,14 @@ return (
                 {
                     user && user.role === 1 &&
                     <>
-                        <Link to='admin/dashboard'><i class="bi bi-speedometerfs-3 fw-bold text-white "></i>
+                        <Link to='/admin/dashboard'><i class="bi bi-speedometer fs-3 fw-bold text-white "></i>
                         </Link>
                     </>
 
                 }
                 {
                     user &&
-                    <Link to=''> <i class="bi bi-box-arrow.right fs-3 fw-bold text-white"
+                    <Link to=''> <i class="bi bi-box-arrow-right fs-3 fw-bold text-white"
                         onClick={signout}
                     ></i> </Link>
 
@@ -86,9 +86,9 @@ return (
                             <Link className="nav-link" to="/services">Services</Link>
                         </li>
 
-                        <li className="nav-item">
+                        {/* <li className="nav-item">
                             <Link className="nav-link" to="/blogs">Blogs</Link>
-                        </li>
+                        </li> */}
 
                         <li className="nav-item">
                             <Link className="nav-link" to="/contact">Contact</Link>

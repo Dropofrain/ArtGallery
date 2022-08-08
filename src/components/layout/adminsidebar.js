@@ -14,59 +14,59 @@ const navigate = useNavigate()
     }
   return (
     <>
-<div classNameBame="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" >
-    <Link to="/" classNameBame="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-      <span classNameBame="fs-4">Dashboard</span>
+<div className="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" >
+    <Link to="/" className="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+      <span className="fs-4">Dashboard</span>
     </Link>
     <hr/>
-    <ul classNameBame="nav nav-pills flex-column mb-auto">
-      <li classNameBame="nav-item">
-        <Link to="/" classNameBame="nav-link active" aria-current="page">
+    <ul className="nav nav-pills flex-column mb-auto">
+      <li className="nav-item">
+        <Link to="/" className="nav-link active" aria-current="page">
           Home
         </Link>
       </li>
       <li>
-        <Link to="/categories" classNameBame="nav-link text-white">
+        <Link to="/categories" className="nav-link text-white">
          View Categories
         </Link>
       </li>
       <li>
-        <Link to="/category/add" classNameBame="nav-link text-white">
+        <Link to="/category/add" className="nav-link text-white">
           
         Add Categories
         </Link>
       </li>
       <li>
-        <Link to="#" classNameBame="nav-link text-white">
+        <Link to="/admin/products" className="nav-link text-white">
   
           View Products
         </Link>
       </li>
       <li>
-        <Link to="#" classNameBame="nav-link text-white">
+        <Link to="/admin/product/add" className="nav-link text-white">
           
          Add Producrs
         </Link>
       </li>
       <li>
-        <Link to="#" classNameBame="nav-link text-white">
+        <Link to="#" className="nav-link text-white">
           
        Users
         </Link>
       </li>
     </ul>
     <hr/>
-    <div classNameBame="dropdown">
-      <Link to="#" classNameBame="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-        <img src="https://github.com/mdo.png" alt="" width="32" height="32" classNameBame="rounded-circle me-2"/>
+    <div className="dropdown">
+      <Link to="#" className="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+        <img src="https://github.com/mdo.png" alt="" width="32" height="32" className="rounded-circle me-2"/>
         <strong>{user.name}</strong>
       </Link>
-      <ul classNameBame="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+      <ul className="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
         
-        <li><Link classNameBame="dropdown-item" to="#">{user.email}</Link></li>
-        <li><Link classNameBame="dropdown-item" to="#">{user.name}</Link></li>
-        <li><hr classNameBame="dropdown-divider"/></li>
-        <li><Link classNameBame="dropdown-item" to="#" onClick={signout}>Sign out</Link></li>
+        <li><Link className="dropdown-item" to="#">{user.email}</Link></li>
+        <li><Link className="dropdown-item" to="#">{user.name}</Link></li>
+        <li><hr className="dropdown-divider"/></li>
+        <li><Link className="dropdown-item" to="#" onClick={signout}>Sign out</Link></li>
       </ul>
     </div>
   </div>

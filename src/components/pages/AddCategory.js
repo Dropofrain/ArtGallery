@@ -7,7 +7,7 @@ import Navbar from '../layout/Navbar'
 
 const AddCategory = () => {
     const [category, setCategory] = useState('')
-    const[error, setError] = useState('')
+    const [error, setError] = useState('')
     const [success, setSuccess] = useState(false)
     const {token} = isAuthenticated()
 
@@ -45,7 +45,7 @@ const AddCategory = () => {
             {showError()}
             {showSuccess()}
 
-            <div classname='container-fluid'>
+            <div className='container-fluid'>
                 <div className='row'>
                     <div className='col-md-3 p-0'>
                         <Adminsidebar/>
@@ -54,8 +54,8 @@ const AddCategory = () => {
                         <div className='container w-50 mt-5 p-5'>
                             <h1>Add Category</h1>
                             <form>
-                                <label htmfor='category_name'> Category Name</label>
-                                <input type={'text'} id='category_name' className='form-control' placeholder='ebter category name here' onChange={e => setCategory(e.target.value)} />
+                                <label htmlFor='category_name'> Category Name</label>
+                                <input type={'text'} id='category_name' className='form-control' placeholder='enter category name here' onChange={e => setCategory(e.target.value)} />
                                 <button className='btn btn-warning form-control' onClick={clickSubmit}>Add Category</button>
                             </form>
 

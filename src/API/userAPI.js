@@ -20,6 +20,15 @@ export const userRegister = (name, email, password) => {
         .catch(err => console.log(err))
 }
 
+
+export const confirmation = (token) => {
+    return fetch(`${API}/confirmuser/${token}`,{
+        method:"GET"
+    })
+    .then((res) => { return res.json() })
+        .catch(err => console.log(err))
+}
+
 export const signIn = (email, password) => {
     const user = { email, password }
     return fetch(`${API}/signin`, {
@@ -45,7 +54,7 @@ export const authenticate = (data) => {
 //to check if user signed in to authentication
 export const isAuthenticated = () => {
     if (localStorage.getItem(`jwt`)) {
-        return JSON.parse(localStorage.getItem(`JWT`))
+        return JSON.parse(localStorage.getItem(`jwt`))
     }
     else {
         return false
@@ -54,10 +63,39 @@ export const isAuthenticated = () => {
 
 // to signout
 export const signOut = () => {
-    localStorage.removetem(`JWT`)
+    localStorage.removeItem(`jwt`)
     return fetch(`${API}/signout`, {
         methout: "GET"
     })
     .then(res=> res.json())
     .catch(err => console.log(err))
+}
+
+// to forget password
+export const ForgetPassword = (email) => {
+    return fetch(`${API}/forgetpassword`,{
+        method: "POST", 
+        headers:{
+            Accept: "application/json",
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify({email})
+    })
+    .then(res=>res.json())
+    .catch(error=>console.log(error))
+}
+
+
+// to resetPassword
+export const resetPassword = (password, token) => {
+    return fetch(`${API}/resetpassword/${token}`,{
+        method: "POST",
+        headers:{
+            Accept: "application/json",
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify({password})
+    })
+    .then(res=>res.json())
+    .catch(error=>console.log(error))
 }

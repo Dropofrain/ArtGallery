@@ -5,9 +5,10 @@ import { isAuthenticated } from '../../API/userAPI'
 import Adminsidebar from '../layout/adminsidebar'
 import Footer from '../layout/Footer'
 import Navbar from '../layout/Navbar'
+import Usersidebar from '../layout/usersidebar'
 
 const AddProduct = () => {
-  const{token} = isAuthenticated()
+  const{token, user} = isAuthenticated()
   const [categories, setCategories] = useState([])
 const [product,setProduct] = useState({
   product_name:'',
@@ -18,7 +19,8 @@ const [product,setProduct] = useState({
   categor:'',
   error:'',
   success:false,
-  formdata:''
+  formdata:'', 
+  user: ''
 })
 // destructuring
 const {product_name, product_price, product_description, count_in_stock, product_image, category, error, success, formdata} = product
@@ -31,7 +33,7 @@ const {product_name, product_price, product_description, count_in_stock, product
         }
         else {
           setCategories(data)
-          setProduct({formdata: new FormData})
+          setProduct({...product, formdata: new FormData})
         }
 
       })
@@ -45,9 +47,11 @@ const {product_name, product_price, product_description, count_in_stock, product
   }
   const clickSubmit = event =>{
     event.preventDefault()
+    formdata.set("user", user._id)
     addProduct(formdata, token)
     .then(data=>{
-      if(data.error){
+      if(data.error){ 
+        
         setProduct({...product, error: data.error, success: false})
       }
       else{
@@ -72,11 +76,17 @@ const showSuccess = () => {
   return (
     <>
       <Navbar />
-
       <div classname='container-fluid'>
         <div className='row'>
           <div className='col-md-3'>
-            <Adminsidebar />
+{
+  user && user.role === 1 ?
+<Adminsidebar />
+: 
+<Usersidebar/>
+
+}
+
           </div>
           <div className='col-md-9'>
             <h3>Add product</h3>
@@ -88,13 +98,13 @@ const showSuccess = () => {
               <input type={'text'} id='product_name' className='form-control' onChange={handleChange('product_name')}value={product_name} />
 
               <label htmlFor='product_price'>Price</label>
-              <input type={'number'} id='product_price' className='form-control'onChange={handleChange('product_price')}value={product_price} />
+              <input type={'varchar'} id='product_price' className='form-control'onChange={handleChange('product_price')}value={product_price} />
 
               <label htmlFor='product_description'>Description</label>
               <textarea id='product_description' className='form-control' rows={5} onChange={handleChange('product_description')}value={product_description} />
               
-              <label htmlFor='count'> Count in Stock</label>
-              <input type={'number'} id='count' className='form-control' onChange={handleChange('count_in_stock')}value={count_in_stock}/>
+              {/* <label htmlFor='count'> Count in Stock</label>
+              <input type={'number'} id='count' className='form-control' onChange={handleChange('count_in_stock')}value={count_in_stock}/> */}
               
               <label htmlFor='image'>Image</label>
               <input type={'file'} className='form-control' id='image' onChange={handleChange('product_image')} />

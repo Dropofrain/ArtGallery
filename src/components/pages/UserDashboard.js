@@ -1,28 +1,28 @@
 import React from 'react'
-import Adminsidebar from '../layout/adminsidebar'
 import Footer from '../layout/Footer'
 import Navbar from '../layout/Navbar'
+import Usersidebar from '../layout/usersidebar'
 
-const AdminDashboard = () => {
+const UserDashboard = () => {
   return (
     <>
-      <Navbar />
+      <Navbar/>
 
       <div classname='container-fluid'>
         <div className='row'>
           <div className='col-md-3'>
-            <Adminsidebar />
+            <Usersidebar/>
           </div>
           <div className='col-md-9'>
-            <h1>Hello welcome to dashboard</h1>
+            <h1>Hello welcome to dashboard for user side</h1>
             <img src="../images/12image.jpg" alt="" width="900" height="300" />
           </div>
         </div>
       </div>
 
-      <Footer />
+      <Footer/>
     </>
   )
 }
 
-export default AdminDashboard
+export default UserDashboard

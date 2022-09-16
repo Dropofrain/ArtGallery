@@ -2,7 +2,7 @@ import { FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material'
 import React from 'react'
 import { Prices } from './prices'
 
-const RadioButton = (handleFilters) => {
+const RadioButton = ({handleFilters}) => {
     const handleChange = (e) => {
         console.log(e.target.value)
         handleFilters(e.target.value, 'product_price')

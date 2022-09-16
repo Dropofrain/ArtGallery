@@ -26,7 +26,7 @@ userRegister(name,email,password,address,phone)
     setSuccess('')
   }
   else{
-    setSuccess("user registered sucessfully . verify to continue")
+    setSuccess("user registered successfully . verify to continue")
     setError('')
     setName('')
     setEmail('')

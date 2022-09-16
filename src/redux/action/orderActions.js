@@ -3,7 +3,7 @@ import { isAuthenticated } from "../../API/userAPI"
 import { API } from "../../config"
 import { CREATE_ORDER_REQUEST, CREATE_ORDER_SUCCESS, CREATE_ORDER_FAIL,MY_ORDER_REQUEST,MY_ORDER_SUCCESS,MY_ORDER_FAIL,ORDER_DETAILS_REQUEST,ORDER_DETAILS_SUCCESS,ORDER_DETAILS_FAIL} from "../constants/orderConstants"
 
-export const createrOrder = (order) => async (dispatch, getState) => {
+export const createrOrder = (order) => async (dispatch) => {
     const { token } = isAuthenticated()
     try {
         dispatch({
@@ -37,7 +37,7 @@ export const createrOrder = (order) => async (dispatch, getState) => {
 
 
 
-export const myOrder = (order, user_id, token) => async (dispatch, getState) => {
+export const myOrder = (user_id, token) => async (dispatch, getState) => {
     const { token } = isAuthenticated()
     try {
         dispatch({
@@ -53,7 +53,7 @@ export const myOrder = (order, user_id, token) => async (dispatch, getState) => 
         }
         // axios -> response.data
         //fetch -> response.json()
-        const { data } = await axios.post(`${API}/userorder/${user_id}`, order, config)
+        const { data } = await axios.get(`${API}/userorder/${user_id}`, config)
 
         dispatch({
             type: MY_ORDER_SUCCESS,
@@ -83,7 +83,7 @@ export const loadOrderDetails = (order_id, token) => async (dispatch, getState) 
                 Authorization: `Bearer ${token}`
             }
         }
-        const { data } = await axios.post(`${API}/orderdetails/${order_id}`, config)
+        const { data } = await axios.get(`${API}/orderdetails/${order_id}`, config)
 
         dispatch({
             type: ORDER_DETAILS_SUCCESS,

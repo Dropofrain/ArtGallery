@@ -48,17 +48,17 @@ const navigate = useNavigate()
          Add Producrs
         </Link>
       </li>
-      <li>
-        <Link to="#" className="nav-link text-white">
-          
-       Users
-        </Link>
-      </li>
+      {/* <li>
+            <Link to="/user/order" className="nav-link text-white">
+
+              My Orders
+            </Link>
+          </li> */}
     </ul>
     <hr/>
     <div className="dropdown">
       <Link to="#" className="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-        <img src="https://github.com/mdo.png" alt="" width="32" height="32" className="rounded-circle me-2"/>
+        {/* <img src="https://github.com/mdo.png" alt="" width="32" height="32" className="rounded-circle me-2"/> */}
         <strong>{user.name}</strong>
       </Link>
       <ul className="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">

@@ -86,8 +86,8 @@ const{token}=isAuthenticated()
                     <td>{category.category_name}</td>
                     <td>
                       <Link to={`/category/update/${category._id}`}><button className='btn btn-warning'>UPDATE</button></Link>
-                      <button className='btn btn-danger'
-                        onClick={e=>deletecategory(e,category._id)}>DELETE</button>
+                      {/* <button className='btn btn-danger'
+                        onClick={e=>deletecategory(e,category._id)}>DELETE</button> */}
                     </td>
                   </tr>
                 })

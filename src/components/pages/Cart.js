@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux'
 import { addItemToCart, removeItemFromCart } from '../../redux/action/cartActions'
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
+import { Link } from 'react-router-dom'
 
 const Cart = () => {
     const cart_items = useSelector(state => state.cart.cartItems)
@@ -56,7 +57,7 @@ const Cart = () => {
                             <th width="10%">S.No</th>
                             <th width="20%">Product Image</th>
                             <th width="50%">Product Details</th>
-                            <th>Number</th>
+                            <th>Price</th>
                             <th width="20%">Action</th>
                         </tr>
                     </thead>
@@ -70,16 +71,19 @@ const Cart = () => {
                                     </td>
                                     <td>
                                         <h4>{item.name}</h4>
-                                        <h5>Rs. {item.price}</h5>
+                                        {/* <h6>{item.description}</h6> */}
                                         {/* <p>Beutiful Girls with nature</p> */}
                                     </td>
-                                    <td >
+                                    <td>
+                                        <h5>Rs. {item.price}</h5>
+                                    </td>
+                                    {/* <td >
                                         <div className='d-flex'>
                                             <button className='btn btn-danger' onClick={() => deacreaseQuantity(item.product, item.quantity)}>-</button>
                                             <input className='px-2 text-center' type='text' value={item.quantity} readOnly style={{ width: '50px' }} />
                                             <button className='btn btn-info' onClick={() => increaseQuantity(item.product, item.quantity, item.stock)}>+</button>
                                         </div>
-                                    </td>
+                                    </td> */}
                                     <td>
 
                                         <button className='btn btn-danger' onClick={() => removeFromCart(item.product, item.name)}>  <i class="bi bi-trash"></i></button>
@@ -125,14 +129,14 @@ const Cart = () => {
                             </td>
                         </tr> */}
 
-                        
+
                     </tbody>
                 </table>
 
-                
+
 
                 <div className='container mx-auto my-3'>
-                    <button className='btn btn-warning'>Confime Order</button>
+                    <Link to='/confirmorder' className='btn btn-warning'>Confime Order</Link>
                 </div>
             </div>
 

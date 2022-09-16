@@ -24,7 +24,7 @@ return (
 
                 <form className="d-flex">
                     <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                    <button className="btn btn-outline-warning" type="submit">Search</button>
+                    <Link to='/search'><button className="btn btn-outline-warning" type="submit">Search</button></Link>
                 </form>
             </div>
             <div className='col-md-3 d-flex justify-content-evenly'>
@@ -54,11 +54,11 @@ return (
                         <Link to='/admin/dashboard'><i class="bi bi-speedometer fs-3 fw-bold text-white "></i>
                         </Link>
                     </>
-
                 }
+
                 {
                     user &&
-                    <Link to=''> <i class="bi bi-box-arrow-right fs-3 fw-bold text-white"
+                    <Link to='index.js'> <i class="bi bi-box-arrow-right fs-3 fw-bold text-white"
                         onClick={signout}
                     ></i> </Link>
 
@@ -81,10 +81,10 @@ return (
                         <li className="nav-item">
                             <Link className="nav-link" to="/products">Products</Link>
                         </li>
-
+{/* 
                         <li className="nav-item">
                             <Link className="nav-link" to="/services">Services</Link>
-                        </li>
+                        </li> */}
 
                         {/* <li className="nav-item">
                             <Link className="nav-link" to="/blogs">Blogs</Link>

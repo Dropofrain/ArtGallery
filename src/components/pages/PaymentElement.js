@@ -8,9 +8,9 @@ const PaymentElement = () => {
   const [stripeApikey, setStripeApikey] = useState('')
 
   useEffect(async () => {
-    await fetch(`${API}/getStripeAPIkey`, { method: "GET" })
+    await fetch(`${API}/getStripeAPIKey`, { method: "GET" })
       .then(respone => respone.json())
-      .then(data => setStripeApikey(data))
+      .then(data => setStripeApikey(data.stripeAPIKey))
       .catch(error => console.log(error))
 
   }, [])

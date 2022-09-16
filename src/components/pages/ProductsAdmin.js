@@ -63,7 +63,7 @@ const ProductsAdmin = () => {
                                                 {item.count_in_stock}
                                             </td>
                                             <td>
-                                                <Link to={`/product/details/${item._id}`}><button className='btn btn-warning'>View Details</button></Link>
+                                                <Link to={`/product/${item._id}`}><button className='btn btn-warning'>View Details</button></Link>
                                             </td>
                                         </tr>
                                     })

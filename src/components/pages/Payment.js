@@ -13,7 +13,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const Payment = () => {
     const cart_items = useSelector(state => state.cart.cartItems)
     const shipping_info = useSelector(state => state.cart.shippingInfo)
-    const [total_price, setTotalPrice] = useState(0)
+    const total_price = sessionStorage.getItem('total_price')
 
     const stripe = useStripe()
     const elements = useElements()
@@ -29,14 +29,7 @@ const Payment = () => {
         }
     }
 
-    useEffect(() => {
-        let price_array = cart_items.map(item => { return item.quanty * item.price })
-        let totalPrice = price_array.reduce((acc, cur) => acc + cur)
-        setTotalPrice(totalPrice)
-
-
-    }, [])
-
+    
     let order = {
         orderItems: cart_items,
         userId: user._id,
@@ -48,7 +41,8 @@ const Payment = () => {
     }
 
     const paymentData = {
-        amount: total_price * 100
+        // amount: total_price * 100
+        amount: 1000000
     }
 
     const paymentHandle = async (event) => {
@@ -57,13 +51,24 @@ const Payment = () => {
 
         let response
         try {
-            const config = {
-                header: {
-                    'Content-Type': "application/json"
-                    //Autherization: "Bearer ${token}"
-                }
-            }
-            response = await axios.post(`${API}/processpayment`, paymentData, config)
+            // const config = {
+            //     header: {
+            //         'Content-Type': "application/json"
+            //         //Autherization: "Bearer ${token}"
+            //     }
+            // }
+            // response = await axios.post(`${API}/processpayment`, paymentData, config)
+
+            response = await fetch(`${API}/processpayment`,{
+                method: "POST",
+                headers:{
+                    Accept: "application/json",
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify(paymentData)
+            })
+            .then(res=>res.json())
+            
 
             const client_secret = response.client_secret
 
@@ -71,12 +76,12 @@ const Payment = () => {
                 return
             }
 
-            const result = await stripe.confirmCardPayment(`${client_secret}`, {
-                payment_method: {
+            const result = await stripe.confirmCardPayment(`${client_secret}`,{
+                payment_method:{
                     card: elements.getElement(CardNumberElement),
-                    billing_details: {
+                    billing_details:{
                         name: user.name,
-                        email: user.email
+                        email: user.email,
                     }
                 }
             })
@@ -102,7 +107,7 @@ const Payment = () => {
                 }
             }
         }
-        catch { error } {
+        catch(error) {
             toast.error(error.message)
             document.getElementById('pay-btn').disabled = false
         }
@@ -112,6 +117,7 @@ const Payment = () => {
 
         <>
             <Navbar />
+            <ToastContainer theme='colored' position='top-right'/>
             <div className='row  d-flex justify-content-evenly'>
                 <div className='order-details col-md-8'>
                     <CheckoutProgress confirmOrder Shipping Payment />
@@ -143,7 +149,7 @@ const Payment = () => {
                                 <th>Product Details</th>
                                 <th>unit price</th>
                                 <th>Number</th>
-                                <th >Total price</th>
+                                <th >Price</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -152,7 +158,7 @@ const Payment = () => {
                                     return <tr key={i}>
                                         <td>{i + 1}</td>
                                         <td>
-                                            <img src={`http://localhost:5000/${item.image}`} alt={item.name} style={{ "width": "100%" }} />
+                                            <img src={`http://localhost:5000/${item.image}`} alt={item.name} style={{ "height": "150px" }} />
                                         </td>
                                         <td>
                                             <h5>{item.name}</h5>
@@ -166,12 +172,6 @@ const Payment = () => {
                                         <td>
                                             <h5>Rs. {item.quantity * item.price}</h5>
                                         </td>
-
-                                        {/* <td>
-                                            <button className='btn btn-warning'>Update</button>
-                                            <button className='btn btn-danger'>Remove</button>
-
-                                        </td> */}
                                     </tr>
                                 })
                             }
@@ -193,7 +193,7 @@ const Payment = () => {
                     <CardExpiryElement type='text' className='form-control' id='card-expiry' options={options} />
                     <lable htmlFor='card-cvc'>CVC:</lable>
                     <CardCvcElement type='text' className='form-control' id='card-cvc' />
-                    <button className='btn btn-warning form-control' id='pay-btn' onclick={paymentHandle}>Pay Now</button>
+                    <button className='btn btn-warning form-control' id='pay-btn' onClick={paymentHandle}>Pay Now</button>
 
                 </div>
             </div>

@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 
-const CheckoutProgress = () => {
+const CheckoutProgress = ({Shipping, Payment}) => {
     return (
         <>
             <div className='container d-flex my-3 mx-auto justify-content-evenly'>
@@ -18,7 +18,7 @@ const CheckoutProgress = () => {
                 }
 
                 {
-                    //Payment ? <button className='btn btn-waring'>Payment</button> :
+                    Payment ? <Link to ='/Payment'><button className='btn btn-waring'>Payment</button></Link>:
                         <button className='btn btn-warning disabled'>Payment</button>
                 }
             </div>

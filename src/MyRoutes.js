@@ -27,6 +27,15 @@ import UserProfile from './components/pages/UserProfile'
 import UserOrderDetail from './components/pages/UserOrderDetail'
 import Forgetpassword from './components/pages/Forgetpassword'
 import ResetPassword from './components/pages/ResetPassword'
+import Payment from './components/pages/Payment'
+import UserDashboard from'./components/pages/UserDashboard'
+import Users from './components/pages/Users'
+import UserProducts from './components/pages/UserProducts'
+import UpdateProduct from './components/pages/UpdateProduct'
+import DeleteProduct from './components/pages/DeleteProduct'
+import Search from './components/pages/Search'
+import UserOrders from './components/pages/UserOrders'
+import OrderDetails from './components/pages/OrderDetails'
 
 
 const MyRoutes = () => {
@@ -40,6 +49,7 @@ const MyRoutes = () => {
         <Route path='/confirmuser/:token' element={<ConfirmUser />} />
         <Route path='/forgetpassword' element={<Forgetpassword/>}/>
         <Route path='/resetpassword/:token' element={<ResetPassword/>}/>
+        <Route path='/search' element={<Search/>}/>
 
         {/* material pages */}
 
@@ -51,6 +61,8 @@ const MyRoutes = () => {
 
         <Route path='/product/:id' element={<ProductsDetails />} />
         <Route path='/confirm' element={<ConfirmOrder />} />
+        <Route path='/product/update/:id' element = {<UpdateProduct/>}/>
+          <Route path='/product/delete/:id' element ={<DeleteProduct/>}/>
 
         <Route path='/' element={<AdmineRoute />}>
           <Route path='/admin/dashboard' element={<AdminDashboard />} />
@@ -59,20 +71,30 @@ const MyRoutes = () => {
           <Route path='/category/update/:category_id' element={<EditCategory />} />
           <Route path='/admin/products' element={<ProductsAdmin />} />
           <Route path='/admin/product/add' element={<AddProduct />} />
+          
         </Route>
 
         {/* <Route path='/paymentformtest' element={<PaymentForm />} /> */}
 
         <Route path='/' element={<PrivateRoute />}>
-          <Route path='/user/profile' element={<Cart />} />
+          <Route path='/user/cart' element={<Cart />} />
           <Route path='/confirmorder' element={<ConfirmOrder />} />
           <Route path='/Shipping' element={<Shipping />} />
+          {/* <Route path='/Payment' element={<Payment/>}/> */}
           <Route path='/payment' element={<PaymentElement />} />
-          <Route path='/user/profile' element={<UserProfile />} />
+          <Route path='/user/profile' element={<UserDashboard />} />
           <Route path='/orderdetails/:order_id' element={<UserOrderDetail/>} />
+          <Route path='/users/view' element={<Users/>}/>
+          <Route path='/product/add' element={<AddProduct />} />
+          <Route path='/product' element={<UserProducts/>}/>
+          <Route path='/user/order' element={<UserOrders/>}/>
+          <Route path='/user/order/:order_id' element={<OrderDetails/>}/>
+          
+          
+
+          {/* <Route path='/' */}
+
         </Route>
-
-
 
       </Routes>
     </Router>

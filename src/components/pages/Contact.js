@@ -37,7 +37,7 @@ const Contact = () => {
                         </Box>
                     </Box>
 
-                    <Box className='contact-form' width={'50%'}>
+                    {/* <Box className='contact-form' width={'50%'}>
                         <Typography variant='h5' className='text-decoration-underline'>
                             Contact Form
                         </Typography>
@@ -81,7 +81,7 @@ const Contact = () => {
                             Submit
                         </Button>
 
-                    </Box>
+                    </Box> */}
 
 
                     <hr />

@@ -6,28 +6,28 @@ export const Prices = [
     },
     {
         id: 1,
-        name:"Below 500",
-        value:[0, 499]
+        name:"Below 2000",
+        value:[0, 1999]
     },
     {
         id: 2,
-        name:"500 - 2500",
-        value:[500, 2499]
+        name:"2000 - 25000",
+        value:[2000, 24999]
     },
     {
         id: 3,
-        name:"2500 - 5000",
-        value:[2500, 4999]
+        name:"25000 - 50000",
+        value:[25000, 49999]
     },
     {
         id: 4,
-        name:"5000 - 20000",
-        value:[5000, 19999]
+        name:"50000 - 200000",
+        value:[50000, 199999]
     },
     {
         id: 5,
-        name:"Above 20000",
-        value:[20000, 100000]
+        name:"Above 200000",
+        value:[200000, 1000000000]
     },
 
 ]

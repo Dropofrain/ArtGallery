@@ -13,14 +13,11 @@ const Footer = () => {
       <span className="text-muted">&copy; Art Gallery </span>
     </div>
 
-    <ul className="nav col-md-4 justify-content-end list-unstyled d-flex">
-      <li className="ms-3">
-        <Link className="text-muted" to="#">
-          <i class="bi bi-facebook"></i>
-          </Link></li>
+    {/* <ul className="nav col-md-4 justify-content-end list-unstyled d-flex">
+      <li className="ms-3"><Link className="text-muted" to="#"><i class="bi bi-facebook"></i></Link></li>
       <li className="ms-3"><Link className="text-muted" to="#"><i class="bi bi-twitter"></i></Link></li>
       <li className="ms-3"><Link className="text-muted" to="#"><i class="bi bi-instagram"></i></Link></li>
-    </ul>
+    </ul> */}
   </footer>
 </div>
     </>

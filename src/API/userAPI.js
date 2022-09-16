@@ -46,7 +46,7 @@ export const signIn = (email, password) => {
 
 
 
-// to userkeep signed in
+// to user keep signed in
 export const authenticate = (data) => {
     localStorage.setItem(`jwt`, JSON.stringify(data))
 }

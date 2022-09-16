@@ -14,8 +14,8 @@ import RadioButton from '../RadioButton'
 import { Prices } from '../prices'
 
 const Productspage = () => {
-  const [sortBy, setSortBy] = useState('CreatedAt')
-  const [order, setOrder] = useState('1')
+  const [sortBy, setSortBy] = useState('Rating')
+  const [order, setOrder] = useState(-1)
   const [limit, setLimit] = useState(8)
   const [skip, setskip] = useState(0)
 
@@ -34,7 +34,9 @@ const Productspage = () => {
         }
         else {
           setFilteredProduct(data.product)
+          console.log(data.product)
           setSize(data.size)
+          console.log(filteredProduct)
         }
       })
       .catch(err => console.log(err))
@@ -50,12 +52,12 @@ const Productspage = () => {
     }
     setMyFilters(newfilter)
     console.log(newfilter)
-
   }
 
   const handlePrice = (index) => {
     const data = Prices
-    const price = data.find(price => price.id === index)
+    const price = data.find(price => price.id == index)
+    console.log(price.value)
     return price.value
   }
 
@@ -77,7 +79,7 @@ const Productspage = () => {
                  filteredProduct.map(product => {
                     return <Products product={product} key={product._id} />
                   })
-                }
+                } 
                 {/* <Products /> */}
               </div>
             </div>

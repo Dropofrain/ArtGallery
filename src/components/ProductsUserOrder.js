@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import AddProduct from './pages/AddProduct'
 import './products.css'
 
-const Products = ({ product }) => {
+const Products2 = ({ product }) => {
     console.log(product)
     const [rating, setRating] = useState(0)
     const handleRating = (rate) => {
@@ -21,13 +21,11 @@ const Products = ({ product }) => {
                         <h5 className="card-title">Rs.{product.product_price}</h5>
                         <p className="text-truncate">{product.product_description}</p>
                         <div className='App'>
-                            <Rating onClick={handleRating} value={product.Rating}/>
+                            <Rating onClick={handleRating} value={product.rating}/>
                         </div>
                         <br/>
 
-                        <Link to={`/product/${product._id}`}>
-                            <button className='btn btn-warning'>view Details</button>
-                        </Link>
+                        
                     </div>
                 </div>
             </div>
@@ -36,6 +34,6 @@ const Products = ({ product }) => {
     )
 }
 
-export default Products
+export default Products2
 
 

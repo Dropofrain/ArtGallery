@@ -1,207 +1,180 @@
-import { CardCvcElement, CardExpiryElement, CardNumberElement, useElements, useStripe } from '@stripe/react-stripe-js'
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
-import { ToastContainer, toast } from 'react-toastify'
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { isAuthenticated } from '../../API/userAPI'
-import { API } from '../../config'
-import CheckoutProgress from '../CheckoutProgress'
 import Footer from '../layout/Footer'
 import Navbar from '../layout/Navbar'
-import 'react-toastify/dist/ReactToastify.css';
+import { API } from '../../config'
+import { CardNumberElement, CardExpiryElement, CardCvcElement, useStripe, useElements } from '@stripe/react-stripe-js'
+import { toast, ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import { createOrder } from '../../redux/action/orderActions'
+
 
 const Payment = () => {
-    const cart_items = useSelector(state => state.cart.cartItems)
-    const shipping_info = useSelector(state => state.cart.shippingInfo)
-    const total_price = sessionStorage.getItem('total_price')
+    const cart_items = JSON.parse(localStorage.getItem('cartItems'))
+    const shipping_info = JSON.parse(localStorage.getItem('shippingInfo'))
+    let order_total = sessionStorage.getItem('total_price') ? sessionStorage.getItem('total_price') : 0
+    const { user, token } = isAuthenticated()
+    let stripe = useStripe()
+    let elements = useElements()
+    let navigate = useNavigate()
+    let dispatch = useDispatch()
 
-    const stripe = useStripe()
-    const elements = useElements()
-    let { user, token } = isAuthenticated()
-    let options = {
-        style: {
-            base: {
-                fontSize: '16px'
-            },
-            invalid: {
-                color: '#ff0000'
-            }
-        }
-    }
-
-    
     let order = {
         orderItems: cart_items,
-        userId: user._id,
+        user: user._id,
         shipping_address: shipping_info.shipping_address,
         alternate_shipping_address: shipping_info.alternate_shipping_address,
         city: shipping_info.city,
         country: shipping_info.country,
-        //totalOrderPrice: totalprice
+        phone: shipping_info.phone,
+        zipcode: shipping_info.zipcode
     }
 
-    const paymentData = {
-        // amount: total_price * 100
-        amount: 1000000
-    }
+    const makePayment = async (e) => {
+        e.preventDefault()
+        document.getElementById('payBtn').disabled = true
+        let amount = order_total * 100
 
-    const paymentHandle = async (event) => {
-        event.preventDefault()
-        document.getElementById('pay-btn').disabled = true
-
-        let response
+        let res
         try {
-            // const config = {
-            //     header: {
-            //         'Content-Type': "application/json"
-            //         //Autherization: "Bearer ${token}"
-            //     }
-            // }
-            // response = await axios.post(`${API}/processpayment`, paymentData, config)
-
-            response = await fetch(`${API}/processpayment`,{
+            res = await fetch(`${API}/processpayment`, {
                 method: "POST",
-                headers:{
+                headers: {
                     Accept: "application/json",
-                    "Content-Type":"application/json"
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
                 },
-                body:JSON.stringify(paymentData)
-            })
-            .then(res=>res.json())
-            
+                body: JSON.stringify({ amount })
+            },
+            )
+                .then(response => response.json())
+                .catch(error => toast.error(error))
 
-            const client_secret = response.client_secret
+            const client_secret = res.client_secret
 
             if (!stripe || !elements) {
                 return
             }
 
-            const result = await stripe.confirmCardPayment(`${client_secret}`,{
-                payment_method:{
+            let result = await stripe.confirmCardPayment(`${client_secret}`, {
+                payment_method: {
                     card: elements.getElement(CardNumberElement),
-                    billing_details:{
-                        name: user.name,
-                        email: user.email,
+                    billing_details: {
+                        name: user.username,
+                        email: user.email
                     }
                 }
             })
-
             if (result.error) {
                 toast.error(result.error.message)
-                document.querySelector('#pay-btn').disabled = false
+                document.getElementById('payBtn').disabled = false
             }
             else {
                 if (result.paymentIntent.status === 'succeeded') {
-                    order.paymentInfo = {
-                        id: result.paymentIntent.id,
-                        status: result.paymentIntent.status
+                    order.payment_info = {
+                        id: (await result).paymentIntent.id,
+                        status: (await result).paymentIntent.status
                     }
-                    localStorage.removeItem('cardItems')
-                    document.querySelector('#pay-btn').disabled = true
-                    // place order 
-
-                    toast.success("Your order has been placed")
-
-
-
+                    dispatch(createOrder(order))
+                    toast.success('Your order has been placed successfully')
+                    localStorage.removeItem('cartItems')
+                    document.getElementById('payBtn').disabled = false
+                    setTimeout(() => {
+                        navigate('/paymentSuccess')
+                    }, [5000])
                 }
             }
+
+
+
+
         }
-        catch(error) {
+        catch (error) {
             toast.error(error.message)
-            document.getElementById('pay-btn').disabled = false
+            document.getElementById('payBtn').disabled = false
+
         }
     }
 
+
+
     return (
-
-        <>
+        <div>
+            <ToastContainer theme='colored' position='top-right' />
             <Navbar />
-            <ToastContainer theme='colored' position='top-right'/>
-            <div className='row  d-flex justify-content-evenly'>
-                <div className='order-details col-md-8'>
-                    <CheckoutProgress confirmOrder Shipping Payment />
+            {/* <Checkout_progress shipping payment /> */}
+
+            <div className='container shadow-lg mx-auto p-5 row my-5'>
+                <div className='col-md-8'>
+                    <h3 className='text-decoration-underline'>Order Summary</h3>
+                    <div className='container mx-auto my-5 text-start ps-5'>
+                        <table className='table text-center align-middle'>
+                            <thead>
+                                <tr>
+                                    <th>S.No.</th>
+                                    <th>Products</th>
+                                    <th>Products Name</th>
+                                    <th>Unit Price</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                </tr>
+                                {
+                                    cart_items &&
+                                    cart_items.map((item, i) => {
+                                        return <tr key={i}>
+                                            <td>{i + 1}</td>
+                                            <td>
+                                                <img src={`${API}/${item.image}`} style={{ height: '100px' }} />
+                                            </td>
+                                            <td>{item.name}</td>
+                                            <td>Rs.{item.price}</td>
+                                            <td>{item.quantity}</td>
+                                            <td>Rs.{item.quantity * item.price}</td>
+                                        </tr>
+                                    })
+                                }
+                                <tr>
+                                    <td colSpan={6}><h3>Total Amount: Rs.{order_total}</h3></td>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
 
 
-                    {
-                        localStorage.getItem('shippinginfo') &&
-                        <div className='mt-2 p-5 shadow-lg'>
-                            <>
-                                <h4 className='text-center mb-3'>Shipping Details</h4>
-                                <hr />
-                                Shipping Address:
-                                <p>{shipping_info.shipping_address}, {shipping_info.city}, {shipping_info.country}, Phone: {shipping_info.phone}</p>
-                                <br />
-                                Alternate Shipping Address:
-                                <p>{shipping_info.shipping_address}, {shipping_info.city}, {shipping_info.country}, Phone: {shipping_info.phone}</p>
+                        <hr className='my-3' />
+                        <h3 className='text-decoration-underline'>Shipping Address</h3>
+                        <h4>{user.username}</h4>
+                        <h4>{shipping_info.shipping_address}</h4>
+                        {shipping_info &&
+                            <h4>{shipping_info.alternate_shipping_address}</h4>}
+                        <h4>{shipping_info.city}, {shipping_info.zipcode}</h4>
+                        <h4>{shipping_info.country}</h4>
+                        <h4>{shipping_info.phone}</h4>
+                        <hr className='my-3' />
 
-                            </>
-
-                        </div>
-                    }
-
-                    <h4 className='text-center mt-3'>  order Detail</h4>
-                    <table className='table text-center'>
-                        <thead>
-                            <tr>
-                                <th>S.No</th>
-                                <th>Product Image</th>
-                                <th>Product Details</th>
-                                <th>unit price</th>
-                                <th>Number</th>
-                                <th >Price</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                cart_items.map((item, i) => {
-                                    return <tr key={i}>
-                                        <td>{i + 1}</td>
-                                        <td>
-                                            <img src={`http://localhost:5000/${item.image}`} alt={item.name} style={{ "height": "150px" }} />
-                                        </td>
-                                        <td>
-                                            <h5>{item.name}</h5>
-                                        </td>
-                                        <td>
-                                            <h5>Rs. {item.price}</h5>
-                                        </td>
-                                        <td>
-                                            <h5>{item.quantity}</h5>
-                                        </td>
-                                        <td>
-                                            <h5>Rs. {item.quantity * item.price}</h5>
-                                        </td>
-                                    </tr>
-                                })
-                            }
-                            <tr>
-                                <td colSpan={6} className='text-end'>
-                                    <h3>Total Price:Rs. {total_price}</h3>
-                                </td>
-                            </tr>
-
-                        </tbody>
-                    </table>
+                    </div>
                 </div>
-                <div className='payment col-md-4  my-5 p-5 shadow-lg'>
-                    <h4>Card Information</h4>
-                    <hr />
-                    <label htmlFor='card_number'>Card Number:</label>
-                    <CardNumberElement type='text' className='form-control' id='card_number' options={options} />
-                    <lable htmlFor='card-expiry'>Valid Upto</lable>
-                    <CardExpiryElement type='text' className='form-control' id='card-expiry' options={options} />
-                    <lable htmlFor='card-cvc'>CVC:</lable>
-                    <CardCvcElement type='text' className='form-control' id='card-cvc' />
-                    <button className='btn btn-warning form-control' id='pay-btn' onClick={paymentHandle}>Pay Now</button>
+
+                <div className='col-md-4 border-start border-5 mt-3 text-start ps-5'>
+                    <div className='p-3 shadow-lg'>
+                        <h4 className='text-center mb-4'><u>Card Information</u></h4>
+                        <label htmlFor='card-number' className='ms-2'>Card Number</label>
+                        <CardNumberElement type='text' className='form-control' id='card-number' />
+                        <label htmlFor='card-expiry' className='mt-2 ms-2'>Card Expiry Date</label>
+                        <CardExpiryElement type='text' className='w-50 form-control' id='card-expiry' />
+                        <label htmlFor='card-cvc' className='mt-2 ms-2'>Card CVC</label>
+                        <CardCvcElement type='text' className='w-50 form-control' id='card-cvc' />
+                        <button className='btn btn-warning mt-3 form-control' id="payBtn" onClick={makePayment}>Pay Now</button>
+                    </div>
 
                 </div>
             </div>
+
+
             <Footer />
-
-
-
-        </>
+        </div>
     )
 }
 

@@ -27,7 +27,6 @@ import UserProfile from './components/pages/UserProfile'
 import UserOrderDetail from './components/pages/UserOrderDetail'
 import Forgetpassword from './components/pages/Forgetpassword'
 import ResetPassword from './components/pages/ResetPassword'
-import Payment from './components/pages/Payment'
 import UserDashboard from'./components/pages/UserDashboard'
 import Users from './components/pages/Users'
 import UserProducts from './components/pages/UserProducts'
@@ -36,6 +35,7 @@ import DeleteProduct from './components/pages/DeleteProduct'
 import Search from './components/pages/Search'
 import UserOrders from './components/pages/UserOrders'
 import OrderDetails from './components/pages/OrderDetails'
+import PaymentSuccess from './components/pages/PaymentSuccess'
 
 
 const MyRoutes = () => {
@@ -89,7 +89,10 @@ const MyRoutes = () => {
           <Route path='/product' element={<UserProducts/>}/>
           <Route path='/user/order' element={<UserOrders/>}/>
           <Route path='/user/order/:order_id' element={<OrderDetails/>}/>
+
+          <Route path='/paymentsuccess' element={<PaymentSuccess/>}/>
           
+
           
 
           {/* <Route path='/' */}

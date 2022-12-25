@@ -8,13 +8,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify'
 import { saveShippingInfo } from '../../redux/action/cartActions'
 import { isAuthenticated } from '../../API/userAPI'
-import { createrOrder } from '../../redux/action/orderActions'
+import { createOrder } from '../../redux/action/orderActions'
 // import { saveShippingInfo } from '../../redux/action/cartActions'
 
 
 
 const Shipping = () => {
-    const cart_items = useSelector(state => state.cart.cartItems)
+    const cart_items = JSON.parse(localStorage.getItem('cartItems'))
     const shipping_info = useSelector(state => state.cart.shippingInfo)
     const [total_order, setTotalOrder] = useState(0)
     const [total_price, setTotalPrice] = useState(0)
@@ -66,17 +66,17 @@ const Shipping = () => {
 
     }, [])
 
-    const confirmOrder = e => {
-        e.preventDefault()
-        dispatch(createrOrder(order))
+    // const confirmOrder = e => {
+    //     e.preventDefault()
+    //     dispatch(createOrder(order))
 
-        toast.success("your order has placed successfully")
-        localStorage.removeItem("cartItems")
-        setTimeout(() => {
-            navigate('/')
-        }, 3000);
+    //     toast.success("your order has placed successfully")
+    //     localStorage.removeItem("cartItems")
+    //     setTimeout(() => {
+    //         navigate('/')
+    //     }, 3000);
 
-    }
+    // }
     return (
         <>
             <ToastContainer theme='colored' position='top-left' />

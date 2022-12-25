@@ -15,7 +15,6 @@ const PaymentElement = () => {
 
   }, [])
 
-  console.log(stripeApikey)
 
   return (
 

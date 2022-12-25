@@ -50,51 +50,52 @@ const Cart = () => {
             <div className='container mx-auto'>
                 <h3 className='text-center'>Cart Item</h3>
                 <hr />
-
-                <table className='table text-center align-middle'>
-                    <thead>
-                        <tr>
-                            <th width="10%">S.No</th>
-                            <th width="20%">Product Image</th>
-                            <th width="50%">Product Details</th>
-                            <th>Price</th>
-                            <th width="20%">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            cart_items.map((item, i) => {
-                                return <tr key={i}>
-                                    <td>{i + 1}</td>
-                                    <td>
-                                        <img src={`http://localhost:5000/${item.image}`} alt={item.name} style={{ "width": "100%" }} />
-                                    </td>
-                                    <td>
-                                        <h4>{item.name}</h4>
-                                        {/* <h6>{item.description}</h6> */}
-                                        {/* <p>Beutiful Girls with nature</p> */}
-                                    </td>
-                                    <td>
-                                        <h5>Rs. {item.price}</h5>
-                                    </td>
-                                    {/* <td >
+                {
+                    cart_items.length > 0 ?
+                        <table className='table text-center align-middle'>
+                            <thead>
+                                <tr>
+                                    <th width="10%">S.No</th>
+                                    <th width="20%">Product Image</th>
+                                    <th width="50%">Product Details</th>
+                                    <th>Price</th>
+                                    <th width="20%">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    cart_items.map((item, i) => {
+                                        return <tr key={i}>
+                                            <td>{i + 1}</td>
+                                            <td>
+                                                <img src={`http://localhost:5000/${item.image}`} alt={item.name} style={{ "width": "100%" }} />
+                                            </td>
+                                            <td>
+                                                <h4>{item.name}</h4>
+                                                {/* <h6>{item.description}</h6> */}
+                                                {/* <p>Beutiful Girls with nature</p> */}
+                                            </td>
+                                            <td>
+                                                <h5>Rs. {item.price}</h5>
+                                            </td>
+                                            {/* <td >
                                         <div className='d-flex'>
                                             <button className='btn btn-danger' onClick={() => deacreaseQuantity(item.product, item.quantity)}>-</button>
                                             <input className='px-2 text-center' type='text' value={item.quantity} readOnly style={{ width: '50px' }} />
                                             <button className='btn btn-info' onClick={() => increaseQuantity(item.product, item.quantity, item.stock)}>+</button>
                                         </div>
                                     </td> */}
-                                    <td>
+                                            <td>
 
-                                        <button className='btn btn-danger' onClick={() => removeFromCart(item.product, item.name)}>  <i class="bi bi-trash"></i></button>
+                                                <button className='btn btn-danger' onClick={() => removeFromCart(item.product, item.name)}>  <i class="bi bi-trash"></i></button>
 
-                                    </td>
-                                </tr>
-                            })
-                        }
+                                            </td>
+                                        </tr>
+                                    })
+                                }
 
 
-                        {/* <tr>
+                                {/* <tr>
                             <td>2</td>
                             <td>
                                 <img src='./images/3image.jpg' alt='image2' style={{ "width": "100%" }} />
@@ -111,7 +112,7 @@ const Cart = () => {
                             </td>
                         </tr> */}
 
-                        {/* <tr>
+                                {/* <tr>
                             <td>3</td>
                             <td>
                                 <img src='./images/5image.jpg' alt='image3' style={{ "width": "100%" }} />
@@ -128,16 +129,20 @@ const Cart = () => {
                                 <button className='btn btn-danger' >Remove</button>
                             </td>
                         </tr> */}
+                                <div className='container mx-auto my-3'>
+                                    <Link to='/confirmorder' className='btn btn-warning'>Confirm Order</Link>
+                                </div>
+
+                            </tbody>
+                        </table>
+                        :
+                        <div className='alert alert-danger'>There are no items in the car.</div>
+
+                }
 
 
-                    </tbody>
-                </table>
 
 
-
-                <div className='container mx-auto my-3'>
-                    <Link to='/confirmorder' className='btn btn-warning'>Confime Order</Link>
-                </div>
             </div>
 
             <Footer />

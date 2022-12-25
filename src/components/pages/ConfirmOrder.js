@@ -6,20 +6,22 @@ import Footer from '../layout/Footer'
 import Navbar from '../layout/Navbar'
 
 const ConfirmOrder = () => {
-    const cart_items = useSelector(state => state.cart.cartItems)
-    // const [total_order, setTotalOrder] = useState(0)
-    const [total_price, setTotalPrice] = useState(0)
+    const cart_items = JSON.parse(localStorage.getItem('cartItems'))
+    const [total_order, setTotalOrder] = useState(0)
+    let [total_price, setTotalPrice] = useState(0)
 
     useEffect(() => {
-        // let quantity_array = cart_items.map(item => {return item.quantity })
-        // let totalOrder = (quantity_array.reduce((acc,cur) => acc + cur))
-        // setTotalOrder(totalOrder)
+        let quantity_array = cart_items.map(item => {return item.quantity })
+        let totalOrder = (quantity_array.reduce((acc,cur) => acc + cur))
+        setTotalOrder(totalOrder)
 
-        let price_array = cart_items.map(item =>{return item.price})
+        let price_array = cart_items.map(item =>{
+            return item.price})
         let totalPrice = price_array.reduce((acc,cur)=>acc+cur)
-        setTotalPrice(totalPrice)
+        
 
-        sessionStorage.setItem('total_price', JSON.stringify(totalPrice))
+        sessionStorage.setItem('total_price', totalPrice)
+        setTotalPrice(totalPrice)
 
     }, [])
     return (

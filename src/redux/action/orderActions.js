@@ -3,7 +3,7 @@ import { isAuthenticated } from "../../API/userAPI"
 import { API } from "../../config"
 import { CREATE_ORDER_REQUEST, CREATE_ORDER_SUCCESS, CREATE_ORDER_FAIL,MY_ORDER_REQUEST,MY_ORDER_SUCCESS,MY_ORDER_FAIL,ORDER_DETAILS_REQUEST,ORDER_DETAILS_SUCCESS,ORDER_DETAILS_FAIL} from "../constants/orderConstants"
 
-export const createrOrder = (order) => async (dispatch) => {
+export const createOrder = (order) => async (dispatch) => {
     const { token } = isAuthenticated()
     try {
         dispatch({
@@ -19,7 +19,15 @@ export const createrOrder = (order) => async (dispatch) => {
         }
         // axios -> response.data
         //fetch -> response.json()
-        const { data } = await axios.post(`${API}/placeorder`, order, config)
+        // const { data } = await axios.post(`${API}/placeorder`, order, config)
+
+        const data = await fetch(`${API}/placeorder`,{
+            method:"POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            },body:JSON.stringify(order)
+        }).then(res=>res.json())
 
         dispatch({
             type: CREATE_ORDER_SUCCESS,

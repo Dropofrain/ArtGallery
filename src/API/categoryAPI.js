@@ -1,13 +1,13 @@
-import { API } from "../config"
+import { API } from "../config";
 
 // to view all categories
 export const viewCategories = () => {
   return fetch(`${API}/categories`, {
-    method: "GET"
+    method: "GET",
   })
-    .then(res => res.json())
-    .catch(err => console.json(err))
-}
+    .then((res) => res.json())
+    .catch((err) => console.json(err));
+};
 
 // to add category
 export const addCategory = (category_name, token) => {
@@ -16,13 +16,13 @@ export const addCategory = (category_name, token) => {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({category_name})
+    body: JSON.stringify({ category_name }),
   })
-    .then(res => res.json())
-    .catch(err => console.log(err))
-}
+    .then((res) => res.json())
+    .catch((err) => console.log(err));
+};
 
 // to update category
 export const updateCategory = (category_name, category_id, token) => {
@@ -31,34 +31,33 @@ export const updateCategory = (category_name, category_id, token) => {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({category_name})
+    body: JSON.stringify({ category_name }),
   })
-    .then(res => res.json())
-    .catch(err => console.log(err))
-}
+    .then((res) => res.json())
+    .catch((err) => console.log(err));
+};
 
 // to get category
 export const getCategory = (category_id) => {
   return fetch(`${API}/findcategory/${category_id}`, {
-    method: "GET"
+    method: "GET",
   })
-    .then(res => res.json())
-    .catch(err => console.log(err))
-}
+    .then((res) => res.json())
+    .catch((err) => console.log(err));
+};
 
 // tp delete category
-export const deleteCategory = (category_id,token) => {
+export const deleteCategory = (category_id, token) => {
   return fetch(`${API}/deletecategory/${category_id}`, {
     method: "DELETE",
-    headers:{
-      Accept:"application/json",
-      "content-Type":"application/json",
-      Authorization:`Bearer ${token}`
-    }
-
+    headers: {
+      Accept: "application/json",
+      "content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
   })
-    .then(res => res.json())
-    .catch(err => console.log(err))
-}
+    .then((res) => res.json())
+    .catch((err) => console.log(err));
+};
